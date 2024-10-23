@@ -24,20 +24,49 @@ const examplesWatchPath = path.resolve(path.join(dirname, "../examples"), "*.htm
 // Specify the avatar to use here:
 const characterDescription: CharacterDescription = {
   // Option 1 (Default) - Use a GLB file directly
-  meshFileUrl: "https://mmlstorage.com/cIzlm5/1729698857259.html", // This is just an address of a GLB file
+  //meshFileUrl: "https://mmlstorage.com/cIzlm5/1729698857259.html", // This is just an address of a GLB file
   // Option 2 - Use an MML Character from a URL
   // mmlCharacterUrl: "https://...",
   // Option 3 - Use an MML Character from a string
-  // mmlCharacterString: `
-  // <m-character src="/assets/models/bot.glb">
-  //   <m-model src="/assets/models/hat.glb"
-  //     socket="head"
-  //     x="0.03" y="0" z="0.0"
-  //     sx="1.03" sy="1.03" sz="1.03"
-  //     rz="-90"
-  //   ></m-model>
-  // </m-character>
-  // `,
+   mmlCharacterString: `
+  <m-character src="https://mmlstorage.com/01f93b4fc212573febbec2f3131639402300f3fd525756f0a259456558bb1337" collide="false" y="0.04">
+    <m-model socket="head" src="https://mmlstorage.com/75bd23339b5d30dbad9a687150cdd87f3d9b60581647ab4d6a284010f6d8d073" rz="-90" sx="1.01" sy="1.01" sz="1.01" x="0.025" y="0" z="-0.01" collide="false" id="hat"></m-model>
+    <m-image socket="head" src="https://mmlstorage.com/373bd18d96a476a89e912e1ef5bde6171b82c28797f9202fc9752ab4f67bd0e9" x="0.5" rz="-90"></m-image>
+  </m-character>
+
+  <script>
+    const hat = document.getElementById("hat");
+
+    let socketIndex = 0;
+    const sockets = ["head", "hand_l", "hand_r"];
+
+    const socketsAttributes = [{
+        x: 0.025,
+        z: -0.01,
+        rz: -90
+      },
+      {
+        x: 0.06,
+        z: 0.0,
+        rz: -90
+      },
+      {
+        x: -0.06,
+        z: -0.08,
+        rz: 90
+      },
+    ]
+
+    const handleClick = () => {
+      socketIndex = (socketIndex + 1) % sockets.length;
+      hat.setAttribute("socket", sockets[socketIndex]);
+      for (const key in socketsAttributes[socketIndex]) {
+        hat.setAttribute(key, socketsAttributes[socketIndex][key]);
+      }
+    };
+
+    hat.addEventListener("click", () => handleClick());
+  </script>`,
 };
 const userAuthenticator = new BasicUserAuthenticator(characterDescription, {
   /*
